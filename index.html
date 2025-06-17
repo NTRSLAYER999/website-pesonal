@@ -1,0 +1,199 @@
+<?php
+// Proses form jika dikirim
+$form_terkirim = false;
+$nama = $email = $pesan = '';
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $nama = htmlspecialchars(trim($_POST["nama"]));
+    $email = htmlspecialchars(trim($_POST["email"]));
+    $pesan = htmlspecialchars(trim($_POST["pesan"]));
+    $form_terkirim = true;
+}
+?>
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rental Mobil Mewah</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #f4f4f4;
+            color: #333;
+        }
+
+        header {
+            background: #000;
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+        }
+
+        nav ul {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            list-style: none;
+            padding: 0;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #fff;
+            transition: color 0.3s ease;
+        }
+
+        nav a:hover {
+            color: gold;
+        }
+
+        section {
+            padding: 40px 20px;
+            text-align: center;
+        }
+
+        .mobil-container {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+
+        .mobil {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            max-width: 250px;
+            transition: transform 0.3s ease;
+        }
+
+        .mobil:hover {
+            transform: translateY(-5px);
+        }
+
+        img {
+            width: 100%;
+            border-radius: 8px;
+        }
+
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.6s ease forwards;
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        form input, form textarea {
+            width: 80%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+
+        form button {
+            padding: 10px 20px;
+            background-color: #000;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        form button:hover {
+            background-color: gold;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            background: #222;
+            color: white;
+        }
+
+        .thanks {
+            background: #dff0d8;
+            border: 1px solid #b2dba1;
+            padding: 20px;
+            margin: 20px auto;
+            width: 80%;
+            border-radius: 8px;
+            color: #3c763d;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1 class="fade-in">LuxuryCarRent</h1>
+        <nav>
+            <ul>
+                <li><a href="#beranda">Beranda</a></li>
+                <li><a href="#mobil">Mobil</a></li>
+                <li><a href="#kontak">Kontak</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section id="beranda" class="fade-in">
+        <h2>Sewa Mobil Mewah, Sport, dan Exotic</h2>
+        <p>Rasakan pengalaman berkendara terbaik dengan mobil pilihan kami.</p>
+    </section>
+
+    <section id="mobil">
+        <h2>Daftar Mobil</h2>
+        <div class="mobil-container">
+            <div class="mobil fade-in">
+                <img src="ferrari-488-pista.jpg" alt="Ferrari 488 Pista sports car with a silver body and bold red and white racing stripe parked indoors on a smooth showroom floor under soft lighting, conveying a sense of luxury and high performance">
+                <h3>Ferrari 488</h3>
+                <p>Rp 12.000.000 / hari</p>
+            </div>
+            <div class="mobil fade-in">
+                <img src="Jesko.jpg" alt="koenisegg jesco">
+                <h3>koenisegg jesco</h3>
+                <p>Rp 150.000 / hari</p>
+            </div>
+            <div class="mobil fade-in">
+                <img src="pagani hyuara r evo.jpg" alt="Pagani Huayra R Evo sports car with a silver and gold body, aerodynamic design, and racing decals including the text Huayra R Evo and the number 1 on the door, parked on a clean white studio floor under soft lighting, conveying a sense of luxury and high performance">
+                <h3>Rolls Royce Phantom</h3>
+                <p>Rp 25.000.000 / hari</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="kontak" class="fade-in">
+        <h2>Kontak Kami</h2>
+
+        <?php if ($form_terkirim): ?>
+            <div class="thanks">
+                <h3>Terima kasih, <?= $nama ? htmlspecialchars($nama) : 'Pelanggan' ?>!</h3>
+                <p>Pesan Anda telah kami terima.</p>
+                <p><strong>Email:</strong> <?= htmlspecialchars($email) ?></p>
+                <p><strong>Pesan:</strong> <?= nl2br(htmlspecialchars($pesan)) ?></p>
+            </div>
+        <?php else: ?>
+            <form method="POST">
+                <input type="text" name="nama" placeholder="Nama Anda" required>
+                <input type="email" name="email" placeholder="Email" required>
+                <textarea name="pesan" placeholder="Pesan" required></textarea>
+                <button type="submit">Kirim</button>
+            </form>
+        <?php endif; ?>
+    </section>
+
+    <footer>
+        <p>&copy; 2025 LuxuryCarRent. Semua Hak Dilindungi.</p>
+    </footer>
+</body>
+</html>
